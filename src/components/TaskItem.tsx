@@ -38,6 +38,7 @@ export default function TaskItem({ label, subtext, href, checked, onToggle, inde
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => { if (!checked) onToggle() }}
         className="text-[11px] text-[var(--gold)] opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap px-2 py-1 border border-[rgba(255,215,0,0.15)] rounded-md hover:border-[rgba(255,215,0,0.4)] hover:bg-[rgba(255,215,0,0.05)]"
       >
         go ↗

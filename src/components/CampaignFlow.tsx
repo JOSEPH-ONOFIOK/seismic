@@ -70,8 +70,8 @@ export default function CampaignFlow() {
       setWalletError('Please enter your wallet address')
       return
     }
-    if (!/^0x[a-fA-F0-9]{40}$/.test(clean) && !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(clean)) {
-      setWalletError('Enter a valid EVM (0x...) or Solana wallet address')
+    if (!/^0x[a-fA-F0-9]{40}$/.test(clean)) {
+      setWalletError('Enter a valid EVM wallet address (0x...)')
       return
     }
     setWalletError('')
@@ -250,7 +250,7 @@ export default function CampaignFlow() {
                     />
                     <TaskItem
                       index={2}
-                      label="Tag 2 frens in your quote post"
+                      label="Tag 2 friends on the pinned post"
                       subtext="The more frens, the more chaos"
                       href="https://x.com/SeismicNFT"
                       checked={tasks.tag}
@@ -303,18 +303,15 @@ export default function CampaignFlow() {
                   </div>
 
                   <div className="flex gap-2">
-                    <span className="text-[10px] tracking-widest uppercase text-[#555] bg-[#111] border border-[#1e1e1e] rounded-lg px-2 py-1 flex items-center">
+                    <span className="text-[10px] tracking-widest uppercase text-[#FFD700] bg-[rgba(255,215,0,0.06)] border border-[rgba(255,215,0,0.2)] rounded-lg px-2 py-1 flex items-center">
                       EVM
-                    </span>
-                    <span className="text-[10px] tracking-widest uppercase text-[#555] bg-[#111] border border-[#1e1e1e] rounded-lg px-2 py-1 flex items-center">
-                      SOL
                     </span>
                   </div>
 
                   <div className="space-y-1">
                     <input
                       type="text"
-                      placeholder="0x... or Solana address"
+                      placeholder="0x..."
                       value={wallet}
                       onChange={(e) => {
                         setWallet(e.target.value)
