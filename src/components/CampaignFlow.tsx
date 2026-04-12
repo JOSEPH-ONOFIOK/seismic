@@ -34,6 +34,8 @@ export default function CampaignFlow() {
   const [tasks, setTasks] = useState({ follow: false, quote: false, tag: false })
   const [usernameError, setUsernameError] = useState('')
   const [walletError, setWalletError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   // Pre-fill username if came from referral
   useEffect(() => {
@@ -62,7 +64,7 @@ export default function CampaignFlow() {
     goTo(3)
   }
 
-  const handleWalletSubmit = () => {
+  const handleWalletSubmit = async () => {
     const clean = wallet.trim()
     if (!clean) {
       setWalletError('Please enter your wallet address')
@@ -73,7 +75,21 @@ export default function CampaignFlow() {
       return
     }
     setWalletError('')
-    goTo(4)
+    setSubmitError('')
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, wallet: clean, tasks, refBy }),
+      })
+      if (!res.ok) throw new Error('submit failed')
+      goTo(4)
+    } catch {
+      setSubmitError('Something went wrong. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const allTasksDone = tasks.follow && tasks.quote && tasks.tag
@@ -319,18 +335,30 @@ export default function CampaignFlow() {
                     <p className="text-[10px] text-[#444] pl-1">We never ask for private keys or seed phrases</p>
                   </div>
 
+                  {submitError && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-[11px] text-red-400 pl-1"
+                    >
+                      {submitError}
+                    </motion.p>
+                  )}
+
                   <div className="flex gap-2">
                     <button
                       onClick={() => goTo(2)}
-                      className="px-4 py-3 rounded-xl border border-[#2a2a2a] text-[#666] font-body text-sm hover:border-[#444] hover:text-[#999] transition-all duration-150"
+                      disabled={submitting}
+                      className="px-4 py-3 rounded-xl border border-[#2a2a2a] text-[#666] font-body text-sm hover:border-[#444] hover:text-[#999] transition-all duration-150 disabled:opacity-40"
                     >
                       ←
                     </button>
                     <button
                       onClick={handleWalletSubmit}
-                      className="flex-1 py-3 rounded-xl bg-[var(--gold)] text-black font-body font-bold text-sm tracking-wide hover:opacity-90 active:scale-[0.98] transition-all duration-150"
+                      disabled={submitting}
+                      className="flex-1 py-3 rounded-xl bg-[var(--gold)] text-black font-body font-bold text-sm tracking-wide hover:opacity-90 active:scale-[0.98] transition-all duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      Submit entry
+                      {submitting ? 'Submitting...' : 'Submit entry'}
                     </button>
                   </div>
                 </motion.div>
