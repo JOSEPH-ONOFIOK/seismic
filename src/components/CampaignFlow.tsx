@@ -186,7 +186,7 @@ export default function CampaignFlow() {
                           setUsernameError('')
                         }}
                         onKeyDown={(e) => e.key === 'Enter' && handleUsernameNext()}
-                        className="w-full bg-[#0a0a0a] border border-[#2a2a2a] rounded-xl text-sm font-body text-white placeholder-[#444] pl-8 pr-4 py-3 outline-none focus:border-[var(--gold)] transition-colors duration-200"
+                        className="w-full bg-[#0a0a0a] border border-[#2a2a2a] rounded-xl text-base font-body text-white placeholder-[#444] pl-8 pr-4 py-3 outline-none focus:border-[var(--gold)] transition-colors duration-200"
                       />
                     </div>
                     {usernameError && (
@@ -321,7 +321,7 @@ export default function CampaignFlow() {
                         setWalletError('')
                       }}
                       onKeyDown={(e) => e.key === 'Enter' && handleWalletSubmit()}
-                      className="w-full bg-[#0a0a0a] border border-[#2a2a2a] rounded-xl text-sm font-body text-white placeholder-[#444] px-4 py-3 outline-none focus:border-[var(--gold)] transition-colors duration-200"
+                      className="w-full bg-[#0a0a0a] border border-[#2a2a2a] rounded-xl text-base font-body text-white placeholder-[#444] px-4 py-3 outline-none focus:border-[var(--gold)] transition-colors duration-200"
                     />
                     {walletError && (
                       <motion.p
